@@ -43,8 +43,8 @@
             prev: '.nextprev a[rel="prev"]'
         },
         'www.webtoons.com': {
-			next: '.paginate .pg_next',
-			prev: '.paginate .pg_prev'
+      	    next: '.paginate .pg_next',
+	    prev: '.paginate .pg_prev'
 		},
         'aquareader.net': {
             next: 'a.btn.next_page',
