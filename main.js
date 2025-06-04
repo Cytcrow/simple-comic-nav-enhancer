@@ -3,11 +3,11 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.4
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
-// @match        https://westmanga.fun/*
-// @match        https://komikcast.bz/*
+// @match        https://westmanga.me/*
+// @match        https://komikcast02.com/*
 // @match        https://aquareader.net/*
 // @match        https://www.webtoons.com/*
-// @match        https://kiryuu.one/*
+// @match        https://kiryuu01.com/*
 // @match        https://mangaku.lat/*
 // @match        https://manhwatop.com/*
 // @match        https://komiku.id/*
@@ -270,3 +270,4 @@
         }
     }
 })();
+
