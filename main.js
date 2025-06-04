@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         A Simple Web Navigation Enhancer
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
 // @match        https://westmanga.me/*
 // @match        https://komikcast02.com/*
