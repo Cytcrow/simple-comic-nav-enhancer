@@ -29,16 +29,16 @@
     let scrollingDown = false; // Is "S" key held down?
     let momentumUp = 0; // Momentum for scrolling up
     let momentumDown = 0; // Momentum for scrolling down
-    const maxMomentum = 100; // Maximum scroll speed
+    const maxMomentum = 80; // Maximum scroll speed
     const momentumDecay = 0.0; // Rate of momentum decay
     let scrollInterval; // Reference to the scroll loop
 
     const HOSTS = {
-        'westmanga.fun': {
+        'westmanga.me': {
             next: '.ch-next-btn',
             prev: '.ch-prev-btn'
         },
-        'komikcast.bz': {
+        'komikcast02.com': {
             next: '.nextprev a[rel="next"]',
             prev: '.nextprev a[rel="prev"]'
         },
@@ -50,7 +50,7 @@
             next: 'a.btn.next_page',
             prev: 'a.btn.prev_page'
         },
-        'kiryuu.one': {
+        'kiryuu01.com': {
             next: 'a.ch-next-btn',
             prev: 'a.ch-prev-btn'
         },
@@ -103,13 +103,13 @@
             scrollInterval = setInterval(() => {
                 // Increase momentum if scrolling in a direction
                 if (scrollingUp) {
-                    momentumUp = Math.min(momentumUp + 5, maxMomentum);
+                    momentumUp = Math.min(momentumUp + 8, maxMomentum);
                 } else {
                     momentumUp *= momentumDecay; // Decay momentum if "W" is released
                 }
 
                 if (scrollingDown) {
-                    momentumDown = Math.min(momentumDown + 5, maxMomentum);
+                    momentumDown = Math.min(momentumDown + 8, maxMomentum);
                 } else {
                     momentumDown *= momentumDecay; // Decay momentum if "S" is released
                 }
@@ -208,13 +208,13 @@
             }
         } else if ((event.key === 'q' || event.key === 'Q') && !event.ctrlKey && !event.altKey && event.key !== 'Tab') {
             var allChapterButton;
-            if (window.location.host === 'westmanga.fun') {
+            if (window.location.host === 'westmanga.me') {
                 allChapterButton = document.querySelector('.allc a');
             } else if (window.location.host === 'www.webtoons.com') {
                 allChapterButton = document.querySelector('.subj_info .subj');
-            } else if (window.location.host === 'kiryuu.one') {
+            } else if (window.location.host === 'kiryuu01.com') {
 				allChapterButton = document.querySelector('.headpost .allc a');
-            } else if (window.location.host === 'komikcast.bz') {
+            } else if (window.location.host === 'komikcast02.com') {
                 allChapterButton = document.querySelector('div.allc a');
             } else if (window.location.host === 'manhwatop.com') {
                 allChapterButton = document.querySelector('ol.breadcrumb li:nth-child(2) a');
@@ -270,4 +270,3 @@
         }
     }
 })();
-
