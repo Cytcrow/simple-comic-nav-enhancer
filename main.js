@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         A Simple Web Navigation Enhancer
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.5.1
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
-// @match        https://westmanga.me/*
+// @match        https://westmanga.me/comic/*
 // @match        https://komikcast02.com/*
 // @match        https://aquareader.net/*
 // @match        https://www.webtoons.com/*
@@ -35,8 +35,8 @@
 
     const HOSTS = {
         'westmanga.me': {
-            next: '.ch-next-btn',
-            prev: '.ch-prev-btn'
+            next: 'div.mx-auto:nth-child(7) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
+            prev: 'div.mx-auto:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)'
         },
         'komikcast02.com': {
             next: '.nextprev a[rel="next"]',
@@ -209,11 +209,11 @@
         } else if ((event.key === 'q' || event.key === 'Q') && !event.ctrlKey && !event.altKey && event.key !== 'Tab') {
             var allChapterButton;
             if (window.location.host === 'westmanga.me') {
-                allChapterButton = document.querySelector('.allc a');
+                allChapterButton = document.querySelector('.text-primary');
             } else if (window.location.host === 'www.webtoons.com') {
                 allChapterButton = document.querySelector('.subj_info .subj');
             } else if (window.location.host === 'kiryuu01.com') {
-				allChapterButton = document.querySelector('.headpost .allc a');
+		allChapterButton = document.querySelector('.headpost .allc a');
             } else if (window.location.host === 'komikcast02.com') {
                 allChapterButton = document.querySelector('div.allc a');
             } else if (window.location.host === 'manhwatop.com') {
