@@ -7,7 +7,7 @@
 // @match        https://komikcast02.com/*
 // @match        https://aquareader.net/*
 // @match        https://www.webtoons.com/*
-// @match        https://kiryuu01.com/*
+// @match        https://kiryuu02.com/*
 // @match        https://mangaku.lat/*
 // @match        https://manhwatop.com/*
 // @match        https://komiku.id/*
@@ -50,7 +50,7 @@
             next: 'a.btn.next_page',
             prev: 'a.btn.prev_page'
         },
-        'kiryuu01.com': {
+        'kiryuu02.com': {
             next: 'a.ch-next-btn',
             prev: 'a.ch-prev-btn'
         },
@@ -212,7 +212,7 @@
                 allChapterButton = document.querySelector('.text-primary');
             } else if (window.location.host === 'www.webtoons.com') {
                 allChapterButton = document.querySelector('.subj_info .subj');
-            } else if (window.location.host === 'kiryuu01.com') {
+            } else if (window.location.host === 'kiryuu02.com') {
 		allChapterButton = document.querySelector('.headpost .allc a');
             } else if (window.location.host === 'komikcast02.com') {
                 allChapterButton = document.querySelector('div.allc a');
