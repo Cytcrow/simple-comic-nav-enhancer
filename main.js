@@ -35,8 +35,8 @@
 
     const HOSTS = {
         'westmanga.me': {
-            next: 'div.max-w-screen-xl:nth-child(7) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
-            prev: 'div.max-w-screen-xl:nth-child(7) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)'
+            next: 'div.max-w-screen-xl:nth-child(8) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
+            prev: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)'
         },
         'komikcast02.com': {
             next: '.nextprev a[rel="next"]',
