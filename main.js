@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name         A Simple Web Navigation Enhancer
 // @namespace    http://tampermonkey.net/
-// @version      1.5.4
+// @version      1.5.5
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
 // @match        https://westmanga.me/*
-// @match        https://komikcast02.com/*
+// @match        https://komikcast03.com/*
 // @match        https://aquareader.net/*
 // @match        https://www.webtoons.com/*
-// @match        https://kiryuu02.com/*
+// @match        https://kiryuu03.com/*
 // @match        https://mangaku.lat/*
 // @match        https://manhwatop.com/*
-// @match        https://komiku.id/*
+// @match        https://komiku.org/*
 // @match        https://www.mikoroku.com/*
 // @match        https://mangadex.org/chapter/*
 // @match        https://mangatoto.com/*
@@ -38,21 +38,21 @@
             next: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
             prev: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)'
         },
-        'komikcast02.com': {
+        'komikcast03.com': {
             next: '.nextprev a[rel="next"]',
             prev: '.nextprev a[rel="prev"]'
         },
         'www.webtoons.com': {
       	    next: '.paginate .pg_next',
-	    prev: '.paginate .pg_prev'
-		},
+	          prev: '.paginate .pg_prev'
+		    },
         'aquareader.net': {
             next: 'a.btn.next_page',
             prev: 'a.btn.prev_page'
         },
-        'kiryuu02.com': {
-            next: 'a.ch-next-btn',
-            prev: 'a.ch-prev-btn'
+        'kiryuu03.com': {
+            next: 'a.justify-center:nth-child(3)',
+            prev: 'a.px-4:nth-child(1)'
         },
         'mangaku.lat': {
             prev: 'button.glho.glkp_1:-soup-contains("PREV")',
@@ -62,7 +62,7 @@
             prev: '.prev_page',
             next: '.next_page'
         },
-        'komiku.id': {
+        'komiku.org': {
             prev: 'div.nxpr > a.rl:first-of-type',
             next: 'div.nxpr > a.rl:last-of-type'
         },
@@ -212,9 +212,9 @@
                 allChapterButton = document.querySelector('.text-primary');
             } else if (window.location.host === 'www.webtoons.com') {
                 allChapterButton = document.querySelector('.subj_info .subj');
-            } else if (window.location.host === 'kiryuu02.com') {
-		allChapterButton = document.querySelector('.headpost .allc a');
-            } else if (window.location.host === 'komikcast02.com') {
+            } else if (window.location.host === 'kiryuu03.com') {
+		allChapterButton = document.querySelector('button.ring-offset-accent');
+            } else if (window.location.host === 'komikcast03.com') {
                 allChapterButton = document.querySelector('div.allc a');
             } else if (window.location.host === 'manhwatop.com') {
                 allChapterButton = document.querySelector('ol.breadcrumb li:nth-child(2) a');
@@ -224,6 +224,8 @@
                 allChapterButton = document.querySelector('h3.text-xl.font-bold.space-x-2 > a.link-pri.link-hover');
             } else if (window.location.host === 'aquareader.net') {
                 allChapterButton = document.querySelector('.breadcrumb > li:nth-child(2) > a:nth-child(1)');
+            } else if (window.location.host === 'komiku.org') {
+                allChapterButton = document.querySelector('#Description > a:nth-child(3)');
             }
             if (allChapterButton) {
                 // Periksa elemen yang sedang dalam fokus
