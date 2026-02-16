@@ -1,10 +1,9 @@
 // ==UserScript==
 // @name         A Simple Web Navigation Enhancer
 // @namespace    http://tampermonkey.net/
-// @version      2.2.0
+// @version      2.2.1
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
 // @match        https://westmanga.me/*
-// @match        https://v1.komikcast.fit/*
 // @match        https://aquareader.net/*
 // @match        https://www.webtoons.com/*
 // @match        https://kiryuu03.com/*
@@ -58,12 +57,6 @@
             next: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
             prev: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)',
             allChapters: '.text-primary'
-        },
-        'v1.komikcast.fit': {
-            next: 'button.hover\:bg-accent:nth-child(6)',
-            prev: '.md\:gap-5 > button:nth-child(1)',
-            allChapters: 'a.text-foreground',
-            scrollContainer: 'div.flex-col:nth-child(2)'
         },
         'www.webtoons.com': {
             next: '.paginate .pg_next',
