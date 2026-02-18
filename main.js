@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         A Simple Web-Comics Navigation Enhancer
 // @namespace    http://tampermonkey.net/
-// @version      2.2.1
+// @version      2.2.2
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
 // @match        https://westmanga.me/*
 // @match        https://aquareader.net/*
@@ -91,6 +91,12 @@
             prev: 'a[rel="prev"][type="button"]',
             next: 'a[rel="next"][type="button"]',
             allChapters: 'a[rel="home"][type="button"]'
+        },
+        'v1.komikcast.fit': {
+            next: 'button.border:nth-child(2)',
+            prev: 'button.flex-1:nth-child(1)',
+            allChapters: 'a.text-foreground',
+            scrollContainer: '.overflow-x-hidden'
         }
     };
 
