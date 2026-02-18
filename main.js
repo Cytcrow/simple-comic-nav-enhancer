@@ -1,9 +1,10 @@
 // ==UserScript==
-// @name         A Simple Web-Comics Navigation Enhancer
+// @name         A Simple Web Navigation Enhancer
 // @namespace    http://tampermonkey.net/
-// @version      2.2.2
+// @version      2.3.0
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
 // @match        https://westmanga.me/*
+// @match        https://v1.komikcast.fit/*
 // @match        https://aquareader.net/*
 // @match        https://www.webtoons.com/*
 // @match        https://kiryuu03.com/*
@@ -39,9 +40,14 @@
     // All values are time-based (per second), so scroll speed is consistent
     // regardless of frame rate or page rendering load.
     const SCROLL_CONFIG = {
-        maxSpeed: 1800,  // Maximum scroll speed (px per second)
+        maxSpeed: 2400,    // Maximum scroll speed (px per second)
         decayRate: 18,     // Momentum decay rate — higher = stops faster (per second, exponential)
-        accelRate: 1500,   // Acceleration when key is held (px per second²)
+        accelRate: 1980,   // Acceleration when key is held (px per second²)
+
+        // Jump scroll — triggered by a quick tap (press + release under tapThreshold)
+        tapThreshold: 150, // Max milliseconds a press can last to count as a "tap"
+        jumpDistance: 230, // Jump distance in pixels
+        jumpDuration: 200, // Jump animation duration in milliseconds
     };
 
     // ========================
@@ -57,6 +63,12 @@
             next: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
             prev: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)',
             allChapters: '.text-primary'
+        },
+        'v1.komikcast.fit': {
+            next: 'button.border:nth-child(2)',
+            prev: 'button.flex-1:nth-child(1)',
+            allChapters: 'a.text-foreground',
+            scrollContainer: '.overflow-x-hidden'
         },
         'www.webtoons.com': {
             next: '.paginate .pg_next',
@@ -91,12 +103,6 @@
             prev: 'a[rel="prev"][type="button"]',
             next: 'a[rel="next"][type="button"]',
             allChapters: 'a[rel="home"][type="button"]'
-        },
-        'v1.komikcast.fit': {
-            next: 'button.border:nth-child(2)',
-            prev: 'button.flex-1:nth-child(1)',
-            allChapters: 'a.text-foreground',
-            scrollContainer: '.overflow-x-hidden'
         }
     };
 
@@ -130,6 +136,9 @@
     let speedDown = 0;        // Current downward scroll speed (px/s)
     let scrollRAF = null;     // requestAnimationFrame ID
     let lastFrameTime = null; // Timestamp of the last animation frame
+
+    let keyDownTimeUp = null;   // Timestamp when scroll-up key was pressed
+    let keyDownTimeDown = null; // Timestamp when scroll-down key was pressed
 
     // ========================
     // HELPER FUNCTIONS
@@ -252,6 +261,57 @@
         if (direction === 'down') scrollingDown = false;
     }
 
+    /**
+     * Performs a smooth, short jump scroll using eased animation.
+     * Triggered by a quick tap (press duration < tapThreshold).
+     * Uses easeOutCubic for a natural deceleration feel.
+     */
+    function jumpScroll(direction) {
+        // Cancel any ongoing momentum scroll
+        if (scrollRAF) {
+            cancelAnimationFrame(scrollRAF);
+            scrollRAF = null;
+            lastFrameTime = null;
+            speedUp = 0;
+            speedDown = 0;
+            scrollingUp = false;
+            scrollingDown = false;
+        }
+
+        const distance = SCROLL_CONFIG.jumpDistance * scrollSpeed * (direction === 'up' ? -1 : 1);
+        const duration = SCROLL_CONFIG.jumpDuration;
+        let startTime = null;
+        let scrolled = 0;
+
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+
+        function jumpFrame(timestamp) {
+            if (startTime === null) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = easeOutCubic(progress);
+
+            const targetScroll = distance * eased;
+            const frameDelta = targetScroll - scrolled;
+            scrolled = targetScroll;
+
+            const target = getScrollTarget();
+            if (target) {
+                target.scrollTop += frameDelta;
+            } else {
+                window.scrollBy(0, frameDelta);
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(jumpFrame);
+            }
+        }
+
+        requestAnimationFrame(jumpFrame);
+    }
+
     // ========================
     // FULLSCREEN
     // ========================
@@ -278,6 +338,7 @@
         // Scroll up
         if (isKeyMatch(key, KEY_BINDINGS.scrollUp) && !scrollingUp) {
             m_event.preventDefault();
+            keyDownTimeUp = performance.now();
             startScrolling('up');
             return;
         }
@@ -285,6 +346,7 @@
         // Scroll down
         if (isKeyMatch(key, KEY_BINDINGS.scrollDown) && !scrollingDown) {
             m_event.preventDefault();
+            keyDownTimeDown = performance.now();
             startScrolling('down');
             return;
         }
@@ -321,10 +383,22 @@
         const key = m_event.key;
 
         if (isKeyMatch(key, KEY_BINDINGS.scrollUp)) {
-            stopScrolling('up');
+            const held = keyDownTimeUp ? performance.now() - keyDownTimeUp : Infinity;
+            keyDownTimeUp = null;
+            if (held < SCROLL_CONFIG.tapThreshold) {
+                jumpScroll('up');
+            } else {
+                stopScrolling('up');
+            }
         }
         if (isKeyMatch(key, KEY_BINDINGS.scrollDown)) {
-            stopScrolling('down');
+            const held = keyDownTimeDown ? performance.now() - keyDownTimeDown : Infinity;
+            keyDownTimeDown = null;
+            if (held < SCROLL_CONFIG.tapThreshold) {
+                jumpScroll('down');
+            } else {
+                stopScrolling('down');
+            }
         }
     });
 
