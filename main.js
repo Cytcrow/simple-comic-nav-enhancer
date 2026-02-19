@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         A Simple Web Navigation Enhancer
+// @name         A Simple Web-Comic Navigation Enhancer
 // @namespace    http://tampermonkey.net/
 // @version      2.3.0
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
@@ -45,9 +45,9 @@
         accelRate: 1980,   // Acceleration when key is held (px per second²)
 
         // Jump scroll — triggered by a quick tap (press + release under tapThreshold)
-        tapThreshold: 150, // Max milliseconds a press can last to count as a "tap"
+        tapThreshold: 120, // Max milliseconds a press can last to count as a "tap"
         jumpDistance: 230, // Jump distance in pixels
-        jumpDuration: 200, // Jump animation duration in milliseconds
+        jumpDuration: 180, // Jump animation duration in milliseconds
     };
 
     // ========================
