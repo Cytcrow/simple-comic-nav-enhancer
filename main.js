@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         A Simple Web-Comic Navigation Enhancer
 // @namespace    http://tampermonkey.net/
-// @version      2.3.0
+// @version      2.3.1
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
-// @match        https://westmanga.me/*
+// @match        https://westmanga.tv/*
 // @match        https://v1.komikcast.fit/*
 // @match        https://aquareader.net/*
 // @match        https://www.webtoons.com/*
@@ -12,6 +12,7 @@
 // @match        https://manhwatop.com/*
 // @match        https://komiku.org/*
 // @match        https://www.mikoroku.com/*
+// @match        https://mangadex.org/chapter/*
 // @grant        none
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @license      MIT
@@ -59,7 +60,7 @@
     //   scrollSpeed        — Speed multiplier for this site (default: 1.0). Increase if scrolling feels slow.
     //   scrollContainer    — CSS selector for a nested scrollable element. If omitted, scrolls the window.
     const HOSTS = {
-        'westmanga.me': {
+        'westmanga.tv': {
             next: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
             prev: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)',
             allChapters: '.text-primary'
@@ -103,6 +104,11 @@
             prev: 'a[rel="prev"][type="button"]',
             next: 'a[rel="next"][type="button"]',
             allChapters: 'a[rel="home"][type="button"]'
+        },
+        'mangadex.org': {
+            prev: '#chapter-selector > a:nth-child(1)',
+            next: 'a.rounded:nth-child(3)',
+            allChapters: '.reader--header-manga'
         }
     };
 
