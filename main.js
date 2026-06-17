@@ -1,28 +1,18 @@
 // ==UserScript==
 // @name         A Simple Web-Comic Navigation Enhancer
 // @namespace    http://tampermonkey.net/
-// @version      2.3.2
+// @version      2.3.3
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
-// @include      /^https://westmanga\.[^/]*?/.*?$/
-// @include      /^https://[^/]*?\.westmanga\.[^/]*?/.*?$/
-// @include      /^https://komikcast\.[^/]*?/.*?$/
-// @include      /^https://[^/]*?\.komikcast\.[^/]*?/.*?$/
-// @include      /^https://aquareader\.[^/]*?/.*?$/
-// @include      /^https://[^/]*?\.aquareader\.[^/]*?/.*?$/
-// @include      /^https://batotoo\.[^/]*?/chapter/.*?$/
-// @include      /^https://[^/]*?\.batotoo\.[^/]*?/chapter/.*?$/
-// @include      /^https://mangaku\.[^/]*?/.*?$/
-// @include      /^https://[^/]*?\.mangaku\.[^/]*?/.*?$/
-// @include      /^https://manhwatop\.[^/]*?/.*?$/
-// @include      /^https://[^/]*?\.manhwatop\.[^/]*?/.*?$/
-// @include      /^https://komiku\.[^/]*?/.*?$/
-// @include      /^https://[^/]*?\.komiku\.[^/]*?/.*?$/
-// @include      /^https://mangaread\.[^/]*?/.*?$/
-// @include      /^https://[^/]*?\.mangaread\.[^/]*?/.*?$/
-// @include      /^https://mangatoto\.[^/]*?/.*?$/
-// @include      /^https://[^/]*?\.mangatoto\.[^/]*?/.*?$/
-// @include      /^https://kiryuu\.[^/]*?/.*?$/
-// @include      /^https://[^/]*?\.kiryuu\.[^/]*?/.*?$/
+// @include      /^https://(?:[^/]*?\.)?westmanga\.[^/]*?/.*?$/
+// @include      /^https://(?:[^/]*?\.)?komikcast\.[^/]*?/.*?$/
+// @include      /^https://(?:[^/]*?\.)?aquareader\.[^/]*?/.*?$/
+// @include      /^https://(?:[^/]*?\.)?batotoo\.[^/]*?/chapter/.*?$/
+// @include      /^https://(?:[^/]*?\.)?mangaku\.[^/]*?/.*?$/
+// @include      /^https://(?:[^/]*?\.)?manhwatop\.[^/]*?/.*?$/
+// @include      /^https://(?:[^/]*?\.)?komiku\.[^/]*?/.*?$/
+// @include      /^https://(?:[^/]*?\.)?mangaread\.[^/]*?/.*?$/
+// @include      /^https://(?:[^/]*?\.)?mangatoto\.[^/]*?/.*?$/
+// @include      /^https://(?:[^/]*?\.)?kiryuu\.[^/]*?/.*?$/
 // @match        https://www.webtoons.com/*
 // @match        https://mangadex.org/chapter/*
 // @match        https://www.mikoroku.com/*
