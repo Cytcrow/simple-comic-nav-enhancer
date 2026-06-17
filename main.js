@@ -1,18 +1,31 @@
 // ==UserScript==
 // @name         A Simple Web-Comic Navigation Enhancer
 // @namespace    http://tampermonkey.net/
-// @version      2.3.1
+// @version      2.3.2
 // @description  You can quickly access the previous and next episodes, perform smooth scrolling up or down, and even enable or disable full-screen mode. This script is designed to enhance the reading experience of web content in a more convenient and customizable.
-// @match        https://westmanga.tv/*
-// @match        https://v1.komikcast.fit/*
-// @match        https://aquareader.net/*
+// @include      /^https://westmanga\.[^/]*?/.*?$/
+// @include      /^https://[^/]*?\.westmanga\.[^/]*?/.*?$/
+// @include      /^https://komikcast\.[^/]*?/.*?$/
+// @include      /^https://[^/]*?\.komikcast\.[^/]*?/.*?$/
+// @include      /^https://aquareader\.[^/]*?/.*?$/
+// @include      /^https://[^/]*?\.aquareader\.[^/]*?/.*?$/
+// @include      /^https://batotoo\.[^/]*?/chapter/.*?$/
+// @include      /^https://[^/]*?\.batotoo\.[^/]*?/chapter/.*?$/
+// @include      /^https://mangaku\.[^/]*?/.*?$/
+// @include      /^https://[^/]*?\.mangaku\.[^/]*?/.*?$/
+// @include      /^https://manhwatop\.[^/]*?/.*?$/
+// @include      /^https://[^/]*?\.manhwatop\.[^/]*?/.*?$/
+// @include      /^https://komiku\.[^/]*?/.*?$/
+// @include      /^https://[^/]*?\.komiku\.[^/]*?/.*?$/
+// @include      /^https://mangaread\.[^/]*?/.*?$/
+// @include      /^https://[^/]*?\.mangaread\.[^/]*?/.*?$/
+// @include      /^https://mangatoto\.[^/]*?/.*?$/
+// @include      /^https://[^/]*?\.mangatoto\.[^/]*?/.*?$/
+// @include      /^https://kiryuu\.[^/]*?/.*?$/
+// @include      /^https://[^/]*?\.kiryuu\.[^/]*?/.*?$/
 // @match        https://www.webtoons.com/*
-// @match        https://kiryuu03.com/*
-// @match        https://mangaku.lat/*
-// @match        https://manhwatop.com/*
-// @match        https://komiku.org/*
-// @match        https://www.mikoroku.com/*
 // @match        https://mangadex.org/chapter/*
+// @match        https://www.mikoroku.com/*
 // @grant        none
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @license      MIT
@@ -60,12 +73,40 @@
     //   scrollSpeed        — Speed multiplier for this site (default: 1.0). Increase if scrolling feels slow.
     //   scrollContainer    — CSS selector for a nested scrollable element. If omitted, scrolls the window.
     const HOSTS = {
-        'westmanga.tv': {
-            next: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
-            prev: 'div.max-w-screen-xl:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)',
+        'westmanga.co': {
+            next: 'div.max-w-7xl:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
+            prev: 'div.max-w-7xl:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)',
+            allChapters: '.text-primary'
+        },
+        'v1.westmanga.cc': {
+            next: 'div.max-w-7xl:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
+            prev: 'div.max-w-7xl:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)',
+            allChapters: '.text-primary'
+        },
+        'v1.westmanga.my': {
+            next: 'div.max-w-7xl:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)',
+            prev: 'div.max-w-7xl:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > button:nth-child(1)',
             allChapters: '.text-primary'
         },
         'v1.komikcast.fit': {
+            next: 'button.border:nth-child(2)',
+            prev: 'button.flex-1:nth-child(1)',
+            allChapters: 'a.text-foreground',
+            scrollContainer: '.overflow-x-hidden'
+        },
+        'v2.komikcast.fit': {
+            next: 'button.border:nth-child(2)',
+            prev: 'button.flex-1:nth-child(1)',
+            allChapters: 'a.text-foreground',
+            scrollContainer: '.overflow-x-hidden'
+        },
+        'v3.komikcast.fit': {
+            next: 'button.border:nth-child(2)',
+            prev: 'button.flex-1:nth-child(1)',
+            allChapters: 'a.text-foreground',
+            scrollContainer: '.overflow-x-hidden'
+        },
+        'v4.komikcast.fit': {
             next: 'button.border:nth-child(2)',
             prev: 'button.flex-1:nth-child(1)',
             allChapters: 'a.text-foreground',
@@ -81,10 +122,23 @@
             prev: 'a.btn.prev_page',
             allChapters: '.breadcrumb > li:nth-child(2) > a:nth-child(1)'
         },
-        'kiryuu03.com': {
+        'v5.kiryuu.to': {
             next: 'a.justify-center:nth-child(3)',
             prev: 'a.px-4:nth-child(1)',
-            allChapters: 'button.ring-offset-accent'
+            allChapters: 'button.ring-offset-accent',
+            scrollSpeed: 1.1
+        },
+        'v6.kiryuu.to': {
+            next: 'a.justify-center:nth-child(3)',
+            prev: 'a.px-4:nth-child(1)',
+            allChapters: 'button.ring-offset-accent',
+            scrollSpeed: 1.1
+        },
+        'v7.kiryuu.to': {
+            next: 'a.justify-center:nth-child(3)',
+            prev: 'a.px-4:nth-child(1)',
+            allChapters: 'button.ring-offset-accent',
+            scrollSpeed: 1.1
         },
         'mangaku.lat': {
             prev: 'button.glho.glkp_1:-soup-contains("PREV")',
@@ -100,15 +154,29 @@
             next: 'div.nxpr > a.rl:last-of-type',
             allChapters: 'div.perapih:nth-child(3) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1)'
         },
+        'mangatoto.com': {
+            prev: 'a.btn.btn-sm.btn-outline.btn-primary:nth-of-type(1)',
+            next: 'a.btn.btn-sm.btn-outline.btn-primary:nth-of-type(2)',
+            allChapters: 'h3.text-xl.font-bold.space-x-2 > a.link-pri.link-hover'
+        },
         'www.mikoroku.com': {
             prev: 'a[rel="prev"][type="button"]',
             next: 'a[rel="next"][type="button"]',
             allChapters: 'a[rel="home"][type="button"]'
         },
+        'batotoo.com': {
+            prev: 'div.col-12:nth-child(5) > a:nth-child(1)',
+            next: 'div.col-12:nth-child(6) > a:nth-child(1)'
+        },
         'mangadex.org': {
             prev: '#chapter-selector > a:nth-child(1)',
             next: 'a.rounded:nth-child(3)',
             allChapters: '.reader--header-manga'
+        },
+        'www.mangaread.org': {
+            prev: 'div.select-pagination:nth-child(3) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)',
+            next: 'div.select-pagination:nth-child(2) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)',
+            allChapters: '.breadcrumb > li:nth-child(2) > a:nth-child(1)'
         }
     };
 
